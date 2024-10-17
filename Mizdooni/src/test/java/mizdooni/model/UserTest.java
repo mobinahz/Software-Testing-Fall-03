@@ -28,7 +28,7 @@ public class UserTest {
         address = new Address("USA", "NYC", "123 Street");
         address2 = new Address("Iran", "Tehran", "Moj");
 
-        manager = new User("Mamad", "nematipass", "mmdnemati@example.com", address, User.Role.manager);
+        manager = new User("Mamad", "nematipass", "mmdnemati@gmail.com", address, User.Role.manager);
 
         restaurant = new Restaurant(
                 "Test Restaurant",
@@ -52,8 +52,8 @@ public class UserTest {
                 "Beautiful.jpg"
         );
 
-        table = new Table(1, restaurant.getId(), 4); // Table number 1 with 4 seats
-        user = new User("testuser", "password123", "test@example.com", address, User.Role.client);
+        table = new Table(1, restaurant.getId(), 4);
+        user = new User("aminset", "password123", "amin@gmail.com", address, User.Role.client);
 
         reservation1 = new Reservation(user, restaurant, table, LocalDateTime.now().minusDays(1));
         reservation2 = new Reservation(user, restaurant, table, LocalDateTime.now().plusDays(1));
