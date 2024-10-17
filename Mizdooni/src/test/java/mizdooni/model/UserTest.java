@@ -130,32 +130,15 @@ public class UserTest {
         assertNull(result);
     }
 
-    @Test
-    public void testCheckPassword() {
-        assertTrue(user.checkPassword("password123"));
-        assertFalse(user.checkPassword("wrongpassword"));
-        assertFalse(user.checkPassword("PASSWORD123"));
-        assertFalse(user.checkPassword(""));
-    }
-
-    @Test
-    public void testCorrectPassword() {
-        assertTrue(user.checkPassword("password123"));
-    }
-
-    @Test
-    public void testIncorrectPassword() {
-        assertFalse(user.checkPassword("wrongpassword"));
-    }
-
-    @Test
-    public void testCheckCaseSensitivePassword() {
-        assertFalse(user.checkPassword("PASSWORD123"));
-    }
-
-    @Test
-    public void testEmptyPassword() {
-        assertFalse(user.checkPassword(""));
+    @ParameterizedTest
+    @CsvSource({
+            "password123, true",       // Correct password
+            "wrongpassword, false",    // Incorrect password
+            "PASSWORD123, false",      // Case-sensitive password check
+            "'', false"                // Empty password
+    })
+    public void testPasswordCheck(String password, boolean expected) {
+        assertEquals(expected, user.checkPassword(password));
     }
 
 }

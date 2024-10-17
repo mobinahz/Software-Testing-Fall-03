@@ -135,7 +135,6 @@ public class RestaurantTest {
 
     @Test
     void testReplaceReview() {
-
         Review review1 = new Review(user, rating, "Good experience", LocalDateTime.now());
         Review review2 = new Review(user, rating2, "Not great the second time", LocalDateTime.now());
 
@@ -156,7 +155,7 @@ public class RestaurantTest {
         assertEquals(0, avgRating.overall);
     }
     @Test
-    void testGetAverageRating_WithReviews() {
+    void testGetAverageRatingWithReviews() {
         Review review1 = new Review(user, rating3, "Great!", LocalDateTime.now());
         Review review2 = new Review(user2, rating4, "Very nice", LocalDateTime.now());
 
@@ -188,5 +187,4 @@ public class RestaurantTest {
 
         assertEquals(6, restaurant.getMaxSeatsNumber());
     }
-
 }
