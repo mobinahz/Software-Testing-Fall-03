@@ -3,7 +3,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,11 +12,6 @@ import java.util.List;
 
 public class UserTest {
     private User user;
-    private User manager;
-    private User manager2;
-    private Address address;
-    private Address address2;
-    private Table table;
     private Restaurant restaurant;
     private Restaurant restaurant2;
     private Reservation reservation1;
@@ -25,10 +19,10 @@ public class UserTest {
 
     @BeforeEach
     public void setup() {
-        address = new Address("USA", "NYC", "123 Street");
-        address2 = new Address("Iran", "Tehran", "Moj");
+        Address address = new Address("USA", "NYC", "123 Street");
+        Address address2 = new Address("Iran", "Tehran", "Moj");
 
-        manager = new User("Mamad", "nematipass", "mmdnemati@gmail.com", address, User.Role.manager);
+        User manager = new User("Mamad", "nematipass", "mmdnemati@gmail.com", address, User.Role.manager);
 
         restaurant = new Restaurant(
                 "Test Restaurant",
@@ -52,7 +46,7 @@ public class UserTest {
                 "Beautiful.jpg"
         );
 
-        table = new Table(1, restaurant.getId(), 4);
+        Table table = new Table(1, restaurant.getId(), 4);
         user = new User("aminset", "password123", "amin@gmail.com", address, User.Role.client);
 
         reservation1 = new Reservation(user, restaurant, table, LocalDateTime.now().minusDays(1));
@@ -90,7 +84,6 @@ public class UserTest {
         reservation1.cancel();
         assertFalse(user.checkReserved(restaurant));
     }
-
 
     @Test
     public void testReservationIsBeforeNow() {     ////????why not future

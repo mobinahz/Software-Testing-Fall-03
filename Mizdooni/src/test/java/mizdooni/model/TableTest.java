@@ -11,15 +11,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TableTest {
     private Table table;
-    private Address address;
     private Reservation reservation1;
-    private Reservation reservation2;
 
     @BeforeEach
     void setUp() {
 
         table = new Table(1, 1, 4);
-        address = new Address("Iran", "Tehran", "Nelson-Mandela");
+        Address address = new Address("Iran", "Tehran", "Nelson-Mandela");
         User user = new User("mobina", "12345", "mobinahz@gmail.com", null, User.Role.client);
 
 
@@ -35,7 +33,6 @@ public class TableTest {
         );
 
         reservation1 = new Reservation(user, restaurant, table, LocalDateTime.of(2024, 10, 18, 19, 0));
-        reservation2 = new Reservation(user, restaurant, table, LocalDateTime.of(2024, 10, 19, 19, 0));
     }
 
     @Test
@@ -44,7 +41,7 @@ public class TableTest {
 
         List<Reservation> reservations = table.getReservations();
         assertEquals(1, reservations.size());
-        assertEquals(reservation1, reservations.get(0));
+        assertEquals(reservation1, reservations.getFirst());
     }
 
     @Test
@@ -68,6 +65,4 @@ public class TableTest {
 
         assertFalse(table.isReserved(reservation1.getDateTime()));
     }
-
-
 }

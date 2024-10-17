@@ -1,11 +1,6 @@
 package mizdooni.model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
-
-import javax.swing.plaf.ToolBarUI;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,11 +11,7 @@ public class RestaurantTest {
     private User user;
     private User user2;
     private Address address;
-    private Address address2;
     private Restaurant restaurant;
-    private Restaurant restaurant2;
-    private User manager;
-    private User manager2;
     private Table table1;
     private Table table2;
     private Rating rating;
@@ -31,11 +22,11 @@ public class RestaurantTest {
 
     @BeforeEach
     public void setUp() {
-        manager = new User("mobina", "12345", "mobinahz@gmail.com", null, User.Role.manager);
-        manager2 = new User("Mamad", "nematipass", "mmdnemati@gmail.com", address, User.Role.manager);
+        User manager = new User("mobina", "12345", "mobinahz@gmail.com", null, User.Role.manager);
+        User manager2 = new User("Mamad", "nematipass", "mmdnemati@gmail.com", address, User.Role.manager);
 
         address = new Address("Iran", "Tehran", "Moj");
-        address2 = new Address("Iran", "Tehran", "Nelson-Mandela");
+        Address address2 = new Address("Iran", "Tehran", "Nelson-Mandela");
 
         restaurant = new Restaurant(
                 "Symposium",
@@ -48,7 +39,7 @@ public class RestaurantTest {
                 "Beautiful.jpg"
         );
 
-        restaurant2 = new Restaurant(
+        Restaurant restaurant2 = new Restaurant(
                 "ChapChap",
                 manager2,
                 "Asian",
@@ -130,7 +121,7 @@ public class RestaurantTest {
 
         restaurant.addReview(review);
         assertEquals(1, restaurant.getReviews().size());
-        assertEquals(review, restaurant.getReviews().get(0));
+        assertEquals(review, restaurant.getReviews().getFirst());
     }
 
     @Test
@@ -142,8 +133,8 @@ public class RestaurantTest {
         restaurant.addReview(review2);
 
         assertEquals(1, restaurant.getReviews().size());
-        assertEquals(review2, restaurant.getReviews().get(0));
-        assertNotEquals(review1, restaurant.getReviews().get(0));
+        assertEquals(review2, restaurant.getReviews().getFirst());
+        assertNotEquals(review1, restaurant.getReviews().getFirst());
     }
     @Test
     void testGetNoReviewsAverageRating() {
