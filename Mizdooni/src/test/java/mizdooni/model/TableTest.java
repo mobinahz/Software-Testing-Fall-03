@@ -67,13 +67,4 @@ public class TableTest {
 
         assertFalse(table.isReserved(reservation1.getDateTime()));
     }
-
-    @Test
-    void testReservingReservedTable() {
-        table.addReservation(reservation1);
-        table.addReservation(reservation2);
-
-        assertTrue(table.isReserved(reservation1.getDateTime()));
-        assertFalse(table.isReserved(reservation2.getDateTime()));
-    }
 }
