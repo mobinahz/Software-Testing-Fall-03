@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TableTest {
     private Table table;
     private Reservation reservation1;
+    private Reservation reservation2;
 
     @BeforeEach
     void setUp() {
@@ -19,7 +20,7 @@ public class TableTest {
         table = new Table(1, 1, 4);
         Address address = new Address("Iran", "Tehran", "Nelson-Mandela");
         User user = new User("mobina", "12345", "mobinahz@gmail.com", null, User.Role.client);
-
+        User user2 = new User("mamad", "23456", "mamad@gmail.com", null, User.Role.client);
 
         Restaurant restaurant = new Restaurant(
                 "ChapChap",
@@ -33,6 +34,7 @@ public class TableTest {
         );
 
         reservation1 = new Reservation(user, restaurant, table, LocalDateTime.of(2024, 10, 18, 19, 0));
+        reservation2 = new Reservation(user2, restaurant, table, LocalDateTime.of(2024, 10, 18, 19, 0));
     }
 
     @Test
@@ -64,5 +66,14 @@ public class TableTest {
         reservation1.cancel();
 
         assertFalse(table.isReserved(reservation1.getDateTime()));
+    }
+
+    @Test
+    void testReservingReservedTable() {
+        table.addReservation(reservation1);
+        table.addReservation(reservation2);
+
+        assertTrue(table.isReserved(reservation1.getDateTime()));
+        assertFalse(table.isReserved(reservation2.getDateTime()));
     }
 }
