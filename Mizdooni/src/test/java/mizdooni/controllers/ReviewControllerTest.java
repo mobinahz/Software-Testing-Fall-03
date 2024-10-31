@@ -64,7 +64,7 @@ public class ReviewControllerTest {
         }
 
     @Test
-    public void testGetReviewsWhenSuccess() {
+    public void testGetReviewsSuccess() {
         try(MockedStatic<ControllerUtils> utils = mockStatic(ControllerUtils.class)) {
             utils.when(() -> ControllerUtils.checkRestaurant(eq(1), any())).thenReturn(mockRestaurant);
 
@@ -77,13 +77,14 @@ public class ReviewControllerTest {
             Response response = reviewController.getReviews(1, 1);
 
             assertNotNull(response);
+            assertEquals(HttpStatus.OK, response.getStatus());
             assertEquals("reviews for restaurant (" + 1 + "): " + mockRestaurant.getName(), response.getMessage());
             assertEquals(mockReviews, response.getData());
         }
     }
 
     @Test
-    public void testGetReviewsWhenFails() {
+    public void testGetReviewsFails() {
         try(MockedStatic<ControllerUtils> utils = mockStatic(ControllerUtils.class)) {
             utils.when(() -> ControllerUtils.checkRestaurant(eq(1), any())).thenReturn(mockRestaurant);
 
@@ -155,7 +156,7 @@ public class ReviewControllerTest {
     }
 
     @Test
-    public void testAddReviewWhenSuccess() {
+    public void testAddReviewSuccess() {
         Map<String, Object> params = Map.of(
                 "comment", "Good",
                 "rating", Map.of(
@@ -175,7 +176,7 @@ public class ReviewControllerTest {
     }
 
     @Test
-    public void testAddReviewWhenFails() {
+    public void testAddReviewFails() {
         Map<String, Object> params = Map.of(
                 "comment", "Good",
                 "rating", Map.of(

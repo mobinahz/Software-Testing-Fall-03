@@ -48,6 +48,7 @@ public class AuthenticationControllerTest {
         Response response = authenticationController.user();
 
         assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatus());
         assertEquals("current user", response.getMessage());
         assertEquals(mockUser, response.getData());
     }
@@ -57,6 +58,7 @@ public class AuthenticationControllerTest {
         when(userService.getCurrentUser()).thenReturn(null);
 
         ResponseException exception = assertThrows(ResponseException.class, () -> authenticationController.user());
+
         assertEquals(HttpStatus.UNAUTHORIZED, exception.getStatus());
         assertEquals("no user logged in", exception.getMessage());
     }
@@ -67,24 +69,26 @@ public class AuthenticationControllerTest {
 
         ResponseException exception = assertThrows(ResponseException.class, () ->
                 authenticationController.login(Map.of("username", "", "password", "")));
+
         assertEquals(HttpStatus.BAD_REQUEST, exception.getStatus());
         assertEquals(PARAMS_MISSING, exception.getMessage());
     }
 
     @Test
-    public void testLoginWhenLoginSuccessful() {
+    public void testLoginSuccess() {
         when(userService.login("test_user", "test_pass")).thenReturn(true);
         when(userService.getCurrentUser()).thenReturn(mockUser);
 
         Response response = authenticationController.login(Map.of("username", "test_user", "password", "test_pass"));
 
         assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatus());
         assertEquals("login successful", response.getMessage());
         assertEquals(mockUser, response.getData());
     }
 
     @Test
-    public void testLoginWhenLoginWrongParams() {
+    public void testLoginWhenWrongParams() {
         when(userService.login("test_user", "test_pass")).thenReturn(true);
 
         ResponseException exception = assertThrows(ResponseException.class, () ->
@@ -156,7 +160,7 @@ public class AuthenticationControllerTest {
     }
 
     @Test
-    public void testSignupWhenSignupSuccessful() {
+    public void testSignupSuccess() {
         Map<String, Object> validParams = Map.of(
                 "username", "test_user",
                 "password", "test_pass",
@@ -178,6 +182,7 @@ public class AuthenticationControllerTest {
         Response response = authenticationController.signup(validParams);
 
         assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatus());
         assertEquals("signup successful", response.getMessage());
         assertEquals(mockUser, response.getData());
     }
@@ -225,6 +230,7 @@ public class AuthenticationControllerTest {
         Response response = authenticationController.logout();
 
         assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatus());
         assertEquals("logout successful", response.getMessage());
     }
 
@@ -261,11 +267,12 @@ public class AuthenticationControllerTest {
             Response response = authenticationController.validateUsername("test_user");
 
             assertNotNull(response);
+            assertEquals(HttpStatus.OK, response.getStatus());
             assertEquals("username is available", response.getMessage());
         }
     }
 
-    /////
+
     @Test
     public void testValidateEmailWhenInvalidFormat() {
         try (MockedStatic<ServiceUtils> utils = mockStatic(ServiceUtils.class)) {
@@ -299,6 +306,7 @@ public class AuthenticationControllerTest {
             Response response = authenticationController.validateEmail("test@gmail.com");
 
             assertNotNull(response);
+            assertEquals(HttpStatus.OK, response.getStatus());
             assertEquals("email not registered", response.getMessage());
         }
     }
