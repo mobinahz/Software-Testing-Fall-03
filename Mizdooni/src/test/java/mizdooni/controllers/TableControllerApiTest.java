@@ -56,8 +56,7 @@ class TableControllerApiTest {
                 address,
                 User.Role.manager
         );
-        mockRestaurant =
-                new Restaurant(
+        mockRestaurant = new Restaurant(
                         "little",
                         manager,
                         "italian",
