@@ -1,6 +1,7 @@
 package domain;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,6 +13,7 @@ public class TransactionEngineTest {
     Transaction t1;
     Transaction t2;
     Transaction t3;
+    Transaction t4;
 
     @BeforeEach
     void set_up() {
@@ -19,6 +21,7 @@ public class TransactionEngineTest {
         t1 = new Transaction();
         t2 = new Transaction();
         t3 = new Transaction();
+        t4 = new Transaction();
     }
 
     @Test
@@ -345,4 +348,51 @@ public class TransactionEngineTest {
 
     }
 
+    @Test
+    @DisplayName("Test getTransactionPatternAboveThreshold not empty with pattern")
+    void testGetTransactionPatternAboveThreshold_WithPattern() {
+        t1.setTransactionId(1);
+        t1.setAccountId(1);
+        t1.setDebit(false);
+        t1.setAmount(100);
+
+        t2.setTransactionId(2);
+        t2.setAccountId(1);
+        t2.setDebit(false);
+        t2.setAmount(50);
+
+        t3.setTransactionId(3);
+        t3.setAccountId(2);
+        t3.setDebit(false);
+        t3.setAmount(200);
+
+        engine.addTransactionAndDetectFraud(t1);
+        engine.addTransactionAndDetectFraud(t2);
+        engine.addTransactionAndDetectFraud(t3);
+        assertEquals(100, engine.getTransactionPatternAboveThreshold(50));
+    }
+
+    @Test
+    @DisplayName("Test getTransactionPatternAboveThreshold not empty without pattern")
+    void testGetTransactionPatternAboveThreshold_WithoutPattern() {
+        t1.setTransactionId(1);
+        t1.setAccountId(1);
+        t1.setDebit(false);
+        t1.setAmount(100);
+
+        t2.setTransactionId(2);
+        t2.setAccountId(1);
+        t2.setDebit(false);
+        t2.setAmount(50);
+
+        t4.setTransactionId(4);
+        t4.setAccountId(1);
+        t4.setDebit(false);
+        t4.setAmount(260);
+
+        engine.addTransactionAndDetectFraud(t1);
+        engine.addTransactionAndDetectFraud(t2);
+        engine.addTransactionAndDetectFraud(t4);
+        assertEquals(0, engine.getTransactionPatternAboveThreshold(0));
+    }
 }

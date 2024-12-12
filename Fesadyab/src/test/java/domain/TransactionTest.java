@@ -83,10 +83,18 @@ public class TransactionTest {
     }
 
     @Test
-    void test_get_is_debit() {
+    void test_get_is_debit_true() {
         t1.setDebit(true);
 
         assertTrue(t1.isDebit());
 
     }
+
+    @Test
+    void test_get_is_debit_false() {
+        t1.setDebit(false);
+
+        assertFalse(t1.isDebit());
+    }
 }
+
