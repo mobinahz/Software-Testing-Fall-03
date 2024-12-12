@@ -14,6 +14,7 @@ public class TransactionEngineTest {
     Transaction t2;
     Transaction t3;
     Transaction t4;
+    Transaction t5;
 
     @BeforeEach
     void set_up() {
@@ -349,8 +350,7 @@ public class TransactionEngineTest {
     }
 
     @Test
-    @DisplayName("Test getTransactionPatternAboveThreshold not empty with pattern")
-    void testGetTransactionPatternAboveThreshold_WithPattern() {
+    void test_get_transaction_pattern_above_threshold_with_pattern() {
         t1.setTransactionId(1);
         t1.setAccountId(1);
         t1.setDebit(false);
@@ -373,8 +373,7 @@ public class TransactionEngineTest {
     }
 
     @Test
-    @DisplayName("Test getTransactionPatternAboveThreshold not empty without pattern")
-    void testGetTransactionPatternAboveThreshold_WithoutPattern() {
+    void test_get_transaction_pattern_above_threshold_without_pattern() {
         t1.setTransactionId(1);
         t1.setAccountId(1);
         t1.setDebit(false);
@@ -395,4 +394,28 @@ public class TransactionEngineTest {
         engine.addTransactionAndDetectFraud(t4);
         assertEquals(0, engine.getTransactionPatternAboveThreshold(0));
     }
+
+    @Test
+    void test_get_transaction_pattern_above_threshold_multiple_pattern() {
+        t1.setTransactionId(1);
+        t1.setAccountId(1);
+        t1.setDebit(false);
+        t1.setAmount(100);
+
+        t3.setTransactionId(3);
+        t3.setAccountId(2);
+        t3.setDebit(false);
+        t3.setAmount(200);
+
+        t4.setTransactionId(4);
+        t4.setAccountId(1);
+        t4.setDebit(true);
+        t4.setAmount(300);
+
+        engine.addTransactionAndDetectFraud(t1);
+        engine.addTransactionAndDetectFraud(t3);
+        engine.addTransactionAndDetectFraud(t4);
+        assertEquals(100, engine.getTransactionPatternAboveThreshold(50));
+    }
+
 }
