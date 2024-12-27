@@ -1,9 +1,12 @@
 package mizdooni.model;
 
+import lombok.Getter;
+
 import java.time.LocalDateTime;
 
 public class Review {
     private Rating rating;
+    @Getter
     private String comment;
     private LocalDateTime datetime;
     private User user;
@@ -26,4 +29,6 @@ public class Review {
     public User getUser() {
         return user;
     }
+
+
 }
